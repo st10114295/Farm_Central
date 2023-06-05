@@ -1,0 +1,71 @@
+﻿@model List<Farm_Central.Models.FarmerViewModel>
+    
+@{
+    ViewData["Title"] = "View Farmers";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+@if (!string.IsNullOrWhiteSpace(successMessage))
+{
+    <div class="alert alert-success">
+        <strong>Success! </strong>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+    
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error! </strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+   
+}
+<form>
+    <button asp-action="Create" asp-controller="Farmer" class="btn btn-primary mb-3">Add A New Farmer</button>
+    <table class="table table-responsive table-hover table-bordered">
+        <thead>
+            <tr class="table-active">
+                <th>Id</th>
+                <th>Full</th>
+                <th>City</th>
+                <th>Contact Number</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var farmer in Model)
+                {
+                    <tr>
+                        <td>@farmer.Id</td>
+                        <td>@farmer.FullName</td>
+                        <td>@farmer.City</td>
+                        <td>@farmer.ContactNum</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-controller="Farmer" asp-action="Edit" asp-route-id="@farmer.Id" class="btn btn-primary">Edit</a>
+                                
+                                <a asp-controller="Farmer" asp-action="Delete" asp-route-id="@farmer.Id" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <div>
+                            No Farmers Have Been Captured In The Database!
+                        </div>
+                    </td>
+                </tr>
+                
+            }
+        </tbody>
+    </table>
+</form>

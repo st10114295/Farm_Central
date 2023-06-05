@@ -1,0 +1,75 @@
+﻿@model  List<Farm_Central.Models.ProductViewModel>;
+
+@{
+    ViewData["Title"] = "View Products";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+@if (!string.IsNullOrWhiteSpace(successMessage))
+{
+    <div class="alert alert-success">
+        <strong>Success! </strong>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+    
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error! </strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+    
+}
+<form>
+    <button asp-action="Create" asp-controller="Product" class="btn btn-primary mb-3">Add A New Product</button>
+    <table class="table table-responsive table-hover table-bordered">
+        <thead>
+            <tr class="table-active">
+                <th>Product Id</th>
+                <th>Farmers Full Name</th>
+                <th>Product Name</th>
+                <th>Product Description</th>
+                <th>Product Price</th>
+                <th> Manufactured or Sold By Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                    @foreach (var product  in Model)
+                    {
+                    <tr>
+                        <td>@product.ProductId</td>
+                        <td>@product.FarmerName</td>
+                        <td>@product.ProductName</td>
+                        <td>@product.ProductDescription</td>
+                        <td>@product.ProductPrice</td>
+                        <td>@product.DateManufactured.ToString("dd/mm/yyyy") </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.ProductId" class="btn btn-primary">Edit</a>
+
+                                <a asp-controller="Farmer" asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">
+                        <div>
+                            No New Products Have Been Added To The Profiles!
+                        </div>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</form>

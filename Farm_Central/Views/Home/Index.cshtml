@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome User! </h1>
+
+        <p>User Id : @ViewData["UserID"]!</p>
+    <p>Inserting Data That You're Not Authorised To, Will Be Traced And Have Serious Consequences</p>
+
+    
+        <div class="mb-3">
+            <h3>Are you an employee or a farmer?</h3>
+            <div>
+                <input type="submit" onclick="location.href='@Url.Action("Index", "Farmer")' "value="Employee" />
+                <input type="submit" onclick="location.href='@Url.Action("Index", "Product")' " value="Farmer" />
+
+                
+            </div>
+
+        </div>
+        
+        </div>
